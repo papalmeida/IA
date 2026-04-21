@@ -9,12 +9,12 @@ public class IndNRainhas implements Individuo {
     private int[] genes;
     private int qtdGenes;
     private boolean maximizacao = false;
-    private static final Random linhaRainha = new Random();
+    private static final Random rd = new Random();
 
     public IndNRainhas(int qtdGenes) {
         this.genes = new int[qtdGenes];
         for(int i =0; i < qtdGenes; i++) {
-            genes[i] = linhaRainha.nextInt(0,qtdGenes);
+            genes[i] = rd.nextInt(0,qtdGenes);
         }
         this.qtdGenes = qtdGenes;
     }
@@ -31,7 +31,15 @@ public class IndNRainhas implements Individuo {
 
     @Override
     public Individuo mutar() {
-        return new IndNRainhas(qtdGenes, genes);
+        IndNRainhas mutante = new IndNRainhas(qtdGenes, genes);
+
+        for (int i = 0; i < genes.length; i++) {
+            if (rd.nextDouble() < txMutacao) {
+                mutante.genes[i] = rd.nextInt(0, qtdGenes);
+            }
+        }
+        
+        return mutante;
     }
 
     @Override
