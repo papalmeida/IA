@@ -9,11 +9,10 @@ public class IndNRainhas implements Individuo {
     private int[] genes;
     private int qtdGenes;
     private boolean maximizacao = false;
-    private static Random linhaRainha;
+    private static final Random linhaRainha = new Random();
 
     public IndNRainhas(int qtdGenes) {
         this.genes = new int[qtdGenes];
-        linhaRainha = new Random();
         for(int i =0; i < qtdGenes; i++) {
             genes[i] = linhaRainha.nextInt(0,qtdGenes);
         }
@@ -37,7 +36,19 @@ public class IndNRainhas implements Individuo {
 
     @Override
     public double getAvaliacao() {
-        return 0.0;
+        int colisoes = 0;
+
+        for (int i = 0; i < genes.length; i++) {
+            for (int j = i + 1; j < genes.length; j++) {
+                if (genes[i] == genes[j]) {
+                    colisoes++;
+                } else if (Math.abs(genes[i] - genes[j]) == Math.abs(i - j)) {
+                    colisoes++;
+                }
+            }
+        }
+        
+        return colisoes;
     }
 
     @Override
