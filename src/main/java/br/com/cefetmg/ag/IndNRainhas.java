@@ -26,7 +26,28 @@ public class IndNRainhas implements Individuo {
 
     @Override
     public List<Individuo> recombinar(Individuo outro) {
-        return new ArrayList<>(2);
+        List<Individuo> filhos = new ArrayList<>(2);
+        int corte = rd.nextInt(1, qtdGenes - 1);
+
+        int[] genesFilho1 = new int[qtdGenes];
+        int[] genesFilho2 = new int[qtdGenes];
+
+        int[] genesOutro = outro.getGenes();
+
+        for (int i = 0; i < qtdGenes; i++) {
+            if (i < corte) {
+                genesFilho1[i] = genes[i];
+                genesFilho2[i] = genesOutro[i];
+            } else {
+                genesFilho1[i] = genesOutro[i];
+                genesFilho2[i] = genes[i];
+            }
+        }
+
+        filhos.add(new IndNRainhas(qtdGenes, genesFilho1));
+        filhos.add(new IndNRainhas(qtdGenes, genesFilho2));
+
+        return filhos;
     }
 
     @Override
@@ -38,7 +59,7 @@ public class IndNRainhas implements Individuo {
                 mutante.genes[i] = rd.nextInt(0, qtdGenes);
             }
         }
-        
+
         return mutante;
     }
 
